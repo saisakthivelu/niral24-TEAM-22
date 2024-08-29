@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarTalk Analyzer: Advanced Transcript Analysis</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .upload-area {
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        .upload-area:hover {
+            background-color: #ecf0f1;
+        }
+        #file-upload {
+            display: none;
+        }
+        label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        label:hover {
+            background-color: #2980b9;
+        }
+        #analysis-result {
+            display: none;
+        }
+        .section {
+            background-color: #ecf0f1;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+        .requirement, .policy, .objection {
+            background-color: #ffffff;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-left: 4px solid #3498db;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        #error-message {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CarTalk Analyzer: Advanced Transcript Analysis</h1>
+        <div class="upload-area">
+            <label for="file-upload">Upload Transcript (PDF or TXT)</label>
+            <input type="file" id="file-upload" accept=".pdf,.txt" onchange="handleFileUpload(event)">
+        </div>
+        <div id="error-message"></div>
+        <div id="analysis-result">
+            <h2>Analysis Results</h2>
+            <div class="section">
+                <h3>Customer Requirements</h3>
+                <div id="customer-requirements"></div>
+            </div>
+            <div class="section">
+                <h3>Company Policies Discussed</h3>
+                <div id="company-policies"></div>
+            </div>
+            <div class="section">
+                <h3>Customer Objections</h3>
+                <div id="customer-objections"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            const errorMessage = document.getElementById('error-message');
+            const analysisResult = document.getElementById('analysis-result');
+            
+            if (file) {
+                const fileType = file.type;
+                const fileExtension = file.name.split('.').pop().toLowerCase();
+                
+                if (fileType === 'application/pdf' || fileType === 'text/plain' || fileExtension === 'pdf' || fileExtension === 'txt') {
+                    errorMessage.textContent = '';
+                    // Simulate file processing and analysis
+                    setTimeout(() => {
+                        analyzeTranscript();
+                        analysisResult.style.display = 'block';
+                    }, 1500);
+                } else {
+                    event.target.value = '';
+                    errorMessage.textContent = 'Error: Please select only PDF or text files.';
+                    analysisResult.style.display = 'none';
+                }
+            } else {
+                errorMessage.textContent = '';
+                analysisResult.style.display = 'none';
+            }
+        }
+
+        function analyzeTranscript() {
+                       displayResults(customerRequirements, companyPolicies, customerObjections);
+        }
+
+        function displayResults(requirements, policies, objections) {
+            const requirementsDiv = document.getElementById('customer-requirements');
+            const policiesDiv = document.getElementById('company-policies');
+            const objectionsDiv = document.getElementById('customer-objections');
+
+            requirementsDiv.innerHTML = requirements.map(req => 
+                `<div class="requirement"><span class="highlight">${req.type}:</span> ${req.value}</div>`
+            ).join('');
+
+            policiesDiv.innerHTML = policies.map(policy => 
+                `<div class="policy">${policy}</div>`
+            ).join('');
+
+            objectionsDiv.innerHTML = objections.map(obj => 
+                `<div class="objection"><span class="highlight">${obj.type}:</span> ${obj.details}</div>`
+            ).join('');
+        }
+    </script>
+</body>
+</html>
